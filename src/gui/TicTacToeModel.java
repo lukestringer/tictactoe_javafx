@@ -6,18 +6,41 @@ package gui;
 public class TicTacToeModel {
     private final int rows = 3;
     private final int columns = rows;
-    boolean[] cells; //current state of cells
+    private Boolean[] cells; //current state of cells
+    private boolean xTurn = true;//tracks if it is cross's turn (naught's if not)
 
     public TicTacToeModel() {
-
+        cells = new Boolean[totalCells()];
+        int i = 0;
     }
+
+    /**
+     * Updates cell to true if x (cross's) turn or false if o (naught's) turn
+     * Current turn changes player.
+     *
+     * @param column
+     *              the column of the cell clicked
+     * @param row
+     *              the row of the cell clicked
+     */
+    public void cellClicked(int column, int row) {
+        //only update empty cells
+        if (cells[row * columns + column] == null) {
+            cells[row * columns + column] = xTurn;
+            xTurn = !xTurn;
+            //todo check for winner
+            //todo check for all cells filled
+        }
+    }
+
+
 
     /**
      * Returns number of rows in game grid
      * @return
      *      the number of rows in the game grid
      */
-    public int getRows() {
+    public int rows() {
         return this.rows;
     }
 
@@ -26,7 +49,26 @@ public class TicTacToeModel {
      * @return
      *      the number of columns in the game grid
      */
-    public int getColumns() {
+    public int columns() {
         return this.columns;
+    }
+
+    /**
+     * Returns if it is x (cross's) turn or not.
+     * If it isn't, it's o (naught's) turn.
+     *
+     * @return
+     *      true if cross's turn, false if naught's turn
+     */
+    public boolean isxTurn() {
+        return xTurn;
+    }
+
+    public int totalCells() {
+        return rows * columns;
+    }
+
+    public void reset() {
+        cells = new Boolean[totalCells()];
     }
 }
