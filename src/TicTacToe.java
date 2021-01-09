@@ -2,15 +2,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.*;
 
 public class TicTacToe extends Application {
+
 
     public static void main(String[] args) {
         //launch works because TicTacToe extends Application
