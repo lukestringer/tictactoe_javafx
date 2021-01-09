@@ -36,6 +36,42 @@ public class TicTacToeModel {
 
 
     /**
+     * Checks if crosses is the winner.
+     *
+     * @return
+     *      true if crosses wins, false if naughts wins, null if no one has won yet
+     */
+    public Boolean xWins() {
+        /*
+        index triplets to check for winner
+        0 1 2, 3 4 5, 6 7 8
+        0 3 6, 1 4 7, 2 5 8
+        0 4 8
+        2 4 6
+         */
+
+        //check each row
+        for (int i = 0; i < rows; i++) {
+            try {//'try' stops NullPointerExceptions (couldn't have winner on this line anyway)
+                //if they're all true, return true
+                if (cells[i] && cells[i + 1] && cells[i + 2]) {
+                    return Boolean.TRUE;
+                }
+                //if they're all false, return false
+                if (!cells[i] && !cells[i + 1] && !cells[i + 2]) {
+                    return Boolean.FALSE;
+                }
+            } catch (NullPointerException ignored) {
+
+            }
+        }
+
+        //
+
+        return null;
+    }
+
+    /**
      * Returns number of rows in game grid
      * @return
      *      the number of rows in the game grid

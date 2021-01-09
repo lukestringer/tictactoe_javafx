@@ -39,6 +39,17 @@ public class TicTacToeController {
             int row = GridPane.getRowIndex((Button) event.getSource());
             _model.cellClicked(column, row);
             _view.cellClicked(column, row, _model.isxTurn());
+            try {
+                if (_model.xWins()) {
+                    //todo do more than print to console when someone wins
+                    System.out.println("X is winner");
+                } else {
+                    System.out.println("O is winner");
+                }
+            } catch (NullPointerException ignored){
+                System.out.println("No winner");
+            }
+
 
         }
     }

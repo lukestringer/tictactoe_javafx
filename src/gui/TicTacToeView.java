@@ -123,7 +123,8 @@ public class TicTacToeView {
      *          true if it is cross's turn
      */
     public void cellClicked(int column, int row, Boolean xTurn) {
-        String text = xTurn ? "X" : "O";
+        //if it's X's turn, O was the one who just clicked, so set text to O (or vice versa)
+        String text = xTurn ? "O" : "X";
         Button cell = cells[row * _model.columns() + column];
         cell.setText(text);
         cell.setDisable(true);
