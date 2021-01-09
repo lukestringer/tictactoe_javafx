@@ -1,3 +1,6 @@
+import gui.TicTacToeController;
+import gui.TicTacToeModel;
+import gui.TicTacToeView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -16,26 +19,14 @@ public class TicTacToe extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // set up primary stage
-        primaryStage.setTitle("Tic Tac Toe");
-        primaryStage.setWidth(500);
-        primaryStage.setHeight(500);
+    public void start(Stage stage) throws Exception {
+        TicTacToeModel model = new TicTacToeModel();
+        TicTacToeView view = new TicTacToeView(model);
+        new TicTacToeController(model, view);
 
-        Rectangle rect = new Rectangle(10, 10, 50, 50);
-        rect.setFill(Paint.valueOf("red"));
-
-        GridPane root = new GridPane();
-
-        root.getChildren().addAll(rect);
-
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-
-
-
-        primaryStage.show();
+        stage.setScene(new Scene(view.getRootNode(), 300, 300));
+        stage.setTitle("Tic Tac Toe");
+        stage.show();
     }
 }
 
