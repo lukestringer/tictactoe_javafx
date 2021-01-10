@@ -40,15 +40,15 @@ public class TicTacToeController {
             _model.cellClicked(column, row);
             _view.cellClicked(column, row, _model.isxTurn());
             try {
-                if (_model.xWins()) {
-                    //todo do more than print to console when someone wins
-                    System.out.println("X is winner");
-                } else {
-                    System.out.println("O is winner");
+                //currently doesn't matter who wins, will throw exception if no winners
+                if (_model.xWins()) System.out.println("X wins");
+                else {
+                    System.out.println("O wins");
                 }
-            } catch (NullPointerException ignored){
-                System.out.println("No winner");
-            }
+                //can ONLY run this because above will throw a NullPointerException if there's
+                //no winner, which would skip it
+                _view.winner(_model.getWinningLine());
+            } catch (NullPointerException ignored) {}
 
 
         }

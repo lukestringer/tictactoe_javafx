@@ -24,7 +24,9 @@ public class TicTacToe extends Application {
         TicTacToeView view = new TicTacToeView(model);
         new TicTacToeController(model, view);
 
-        stage.setScene(new Scene(view.getRootNode(), 300, 300));
+        stage.setScene(new Scene(view.getRootNode(), 600, 800));
+        stage.setMinWidth(210);
+        stage.setMinHeight(280);
         stage.setTitle("Tic Tac Toe");
         stage.show();
     }

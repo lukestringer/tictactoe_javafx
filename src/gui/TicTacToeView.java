@@ -99,7 +99,7 @@ public class TicTacToeView {
         RowConstraints rowConstraint = new RowConstraints();
         rowConstraint.setVgrow(Priority.ALWAYS);
         rowConstraint.setPrefHeight(50);
-        for (int i = 0; i < _model.rows(); i++) {
+        for (int i = 0; i < _model.rows() + 1; i++) {//rows + 1 to include reset button
             gridPane.getRowConstraints().add(rowConstraint);
         }
     }
@@ -129,13 +129,27 @@ public class TicTacToeView {
         cell.setText(text);
         cell.setDisable(true);
         cell.setOpacity(1);
-        //todo replace button with naught or cross instead of just disabling it
     }
 
     public void reset() {
         for (int i = 0; i < _model.totalCells(); i++) {
             cells[i].setText("");
             cells[i].setDisable(false);
+            cells[i].setStyle("-fx-text-fill: #000000");
+        }
+    }
+
+    /**
+     *
+     * @param indexes
+     */
+    public void winner(int[] indexes) {
+        for (int i = 0; i < _model.totalCells(); i++) {
+            cells[i].setDisable(true);
+            cells[i].setOpacity(1);
+        }
+        for (int index : indexes) {
+            cells[index].setStyle("-fx-text-fill: #ea961b");
         }
     }
 }

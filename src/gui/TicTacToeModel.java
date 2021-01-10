@@ -9,6 +9,12 @@ public class TicTacToeModel {
     private Boolean[] cells; //current state of cells
     private boolean xTurn = true;//tracks if it is cross's turn (naught's if not)
 
+    public int[] getWinningLine() {
+        return winningLine;
+    }
+
+    private int[] winningLine = null;
+
     public TicTacToeModel() {
         cells = new Boolean[totalCells()];
         int i = 0;
@@ -28,46 +34,110 @@ public class TicTacToeModel {
         if (cells[row * columns + column] == null) {
             cells[row * columns + column] = xTurn;
             xTurn = !xTurn;
-            //todo check for winner
-            //todo check for all cells filled
         }
     }
 
 
 
     /**
-     * Checks if crosses is the winner.
+     * Checks if crosses is the winner or loser (naughts is winner).
+     * Only notices first winning line (e.g. if a column and a line win, will notice the 'first')
      *
      * @return
      *      true if crosses wins, false if naughts wins, null if no one has won yet
      */
     public Boolean xWins() {
         /*
-        index triplets to check for winner
+        groups of indexes (lines on board) to check
         0 1 2, 3 4 5, 6 7 8
         0 3 6, 1 4 7, 2 5 8
         0 4 8
         2 4 6
          */
+        //if all cells in line are true, return true
+        //if all cells in line are false, return false
 
-        //check each row
+        // check rows and columns
         for (int i = 0; i < rows; i++) {
-            try {//'try' stops NullPointerExceptions (couldn't have winner on this line anyway)
-                //if they're all true, return true
-                if (cells[i] && cells[i + 1] && cells[i + 2]) {
+            //'try' stops NullPointerExceptions (couldn't have winner on this line anyway)
+            try {
+                //check each row
+                //noinspection ConstantConditions
+                if (checkLine(columns*i, columns*i + 1, columns*i + 2)) {
                     return Boolean.TRUE;
-                }
-                //if they're all false, return false
-                if (!cells[i] && !cells[i + 1] && !cells[i + 2]) {
+                } else {
                     return Boolean.FALSE;
                 }
-            } catch (NullPointerException ignored) {
+            } catch (NullPointerException ignored) {}
 
-            }
+            try {
+                //check each column
+                //noinspection ConstantConditions
+                if (checkLine(i, columns + i, 2*columns + i)) {
+                    return Boolean.TRUE;
+                } else {
+                    return Boolean.FALSE;
+                }
+
+            } catch (NullPointerException ignored) {}
         }
 
-        //
+        //check diagonals
+        try {
+            //noinspection ConstantConditions
+            if (checkLine(0, 4, 8)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        } catch (NullPointerException ignored) {}
+        try {
+            //noinspection ConstantConditions
+            if (checkLine(2, 4, 6)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        } catch (NullPointerException ignored) {}
+        //no winners
+        return null;
+    }
 
+    /**
+     * Helper method to check line of cells.
+     * Return true if all cells in line are true.
+     * Return false if all cells in line are false.
+     * Return null if NullPointerException (empty cells in line).
+     *
+     * @param index0
+     *          index of the first cell in the line
+     * @param index1
+     *          index of the second cell in the line
+     * @param index2
+     *          index of the third cell in the line
+     * @return
+     *          Boolean object true if x wins, false if o wins, null if no winner
+     */
+    private Boolean checkLine(int index0, int index1, int index2) {
+        try {
+            if (cells[index0] && cells[index1] && cells[index2]) {
+                winningLine = new int[] {index0, index1, index2};
+                return Boolean.TRUE;
+            }
+        } catch (NullPointerException e) {
+            //line is not full
+            return null;
+        }
+        try {
+            if (!cells[index0] && !cells[index1] && !cells[index2]) {
+                winningLine = new int[] {index0, index1, index2};
+                return Boolean.FALSE;
+            }
+        } catch (NullPointerException e) {
+            //line is not full
+            return null;
+        }
+        // line is full, but no winner
         return null;
     }
 
@@ -106,5 +176,6 @@ public class TicTacToeModel {
 
     public void reset() {
         cells = new Boolean[totalCells()];
+        xTurn = true;
     }
 }
